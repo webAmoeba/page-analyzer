@@ -23,6 +23,9 @@ uninstall:
 
 re: uninstall i
 
+req-txt:
+	uv pip compile pyproject.toml -o requirements.txt
+
 #_______________________________________________________________________________Lint
 
 lint:
