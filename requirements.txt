@@ -20,6 +20,8 @@ markupsafe==3.0.2
     #   werkzeug
 packaging==24.2
     # via gunicorn
+psycopg2-binary==2.9.10
+    # via hexlet-code (pyproject.toml)
 python-dotenv==1.1.0
     # via dotenv
 werkzeug==3.1.3

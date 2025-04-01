@@ -1,8 +1,9 @@
 install:
 	uv sync
 
+pdev ?= 5000
 dev:
-	uv run flask --debug --app page_analyzer:app run
+	uv run flask --debug --app page_analyzer:app run --port $(pdev)
 
 PORT ?= 8000
 start:
