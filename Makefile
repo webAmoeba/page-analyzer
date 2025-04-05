@@ -1,6 +1,9 @@
 install:
 	uv sync
 
+sql:
+	psql -d db_project_83 -U admin
+
 pdev ?= 5000
 dev:
 	uv run flask --debug --app page_analyzer:app run --port $(pdev)
