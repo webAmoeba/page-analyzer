@@ -24,3 +24,13 @@ def get_url_data(url_id):
     cursor.close()
     conn.close()
     return dict(id=url_data[0], name=url_data[1], created_at=url_data[2])
+
+
+def get_all_urls():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name FROM urls ORDER BY id DESC")
+    urls = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return [dict(id=url[0], name=url[1]) for url in urls]

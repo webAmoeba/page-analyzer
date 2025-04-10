@@ -19,7 +19,14 @@
           </tr>
           </thead>
           <tbody>
-            
+            {% for url in urls %}
+            <tr>
+              <td>{{ url.id }}</td>
+              <td>{{ url.name }}</td>
+              <td></td>
+              <td></td>
+            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>

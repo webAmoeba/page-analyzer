@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from dotenv import load_dotenv
 import os
 import psycopg2
-from page_analyzer.db import get_url_data
+from page_analyzer.db import get_url_data, get_all_urls
 
 app = Flask(__name__)
 load_dotenv()
@@ -35,7 +35,8 @@ def home():
 
 @app.route("/urls")
 def urls():
-    return render_template('urls.html')
+    urls = get_all_urls()
+    return render_template('urls.html', urls=urls)
 
 
 @app.route('/urls/<id>')
