@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source $HOME/.local/bin/env
 # Postgres позволяет подключиться к удаленной базе указав ссылку на нее после флага -d

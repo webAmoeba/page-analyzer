@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from dotenv import load_dotenv
 import os
 import psycopg2
+import validators
 from page_analyzer.db import get_url_data, get_all_urls
 
 app = Flask(__name__)
@@ -16,6 +17,19 @@ conn = psycopg2.connect(DATABASE_URL)
 def home():
     if request.method == "POST":
         url = request.form["url"]
+
+        if len(url) > 255:
+            return render_template(
+                'index.html',
+                message='URL превышает 255 символов'
+            )
+
+        if not validators.url(url):
+            return render_template(
+                'index.html',
+                message='Некорректный URL'
+            )
+
         with conn.cursor() as cursor:
             cursor.execute("SELECT 1 FROM urls WHERE name = %s", (url,))
             exists = cursor.fetchone()
