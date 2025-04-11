@@ -23,6 +23,8 @@ def get_url_data(url_id):
     url_data = cursor.fetchone()
     cursor.close()
     conn.close()
+    if url_data is None:
+        return None
     return dict(id=url_data[0], name=url_data[1], created_at=url_data[2])
 
 
