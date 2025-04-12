@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, flash, redirect, url_for
 from page_analyzer.models import url as url_model
 
 
@@ -10,7 +10,8 @@ def index():
 def show(id):
     url_data = url_model.get_by_id(id)
     if not url_data:
-        return render_template('one_url.html', error='URL не найден')
+        flash('URL не найден', 'danger')
+        return redirect(url_for('urls'))
     return render_template('one_url.html', url=url_data)
 
 
@@ -20,17 +21,14 @@ def create():
 
         errors = url_model.validate(url)
         if errors:
-            return render_template('index.html', message=errors[0])
+            flash(errors[0], 'danger')
+            return render_template('index.html')
 
         if url_model.exists(url):
-            return render_template(
-                'index.html',
-                message='Страница уже существует'
-            )
+            flash('Страница уже существует', 'info')
+            return render_template('index.html')
 
         url_model.create(url)
-        return render_template(
-            'index.html',
-            message='Страница успешно добавлена'
-        )
+        flash('Страница успешно добавлена', 'success')
+        return redirect(url_for('urls'))
     return render_template('index.html')
