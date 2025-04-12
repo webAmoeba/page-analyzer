@@ -22,13 +22,13 @@ def create():
         errors = url_model.validate(url)
         if errors:
             flash(errors[0], 'danger')
-            return render_template('index.html')
+            return redirect(url_for('home'))
 
         if url_model.exists(url):
             flash('Страница уже существует', 'info')
-            return render_template('index.html')
+            return redirect(url_for('home'))
 
-        url_model.create(url)
+        url_id = url_model.create(url)
         flash('Страница успешно добавлена', 'success')
-        return redirect(url_for('urls'))
+        return redirect(url_for('get_one_url', id=url_id))
     return render_template('index.html')

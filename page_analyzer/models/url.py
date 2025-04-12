@@ -57,7 +57,12 @@ def exists(url):
 def create(url):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO urls (name) VALUES (%s)", (url,))
+    cursor.execute(
+        "INSERT INTO urls (name) VALUES (%s) RETURNING id",
+        (url,)
+    )
+    url_id = cursor.fetchone()[0]
     conn.commit()
     cursor.close()
     conn.close()
+    return url_id

@@ -8,25 +8,29 @@ load_dotenv()
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
+
 # Routes
 @app.route("/", methods=["GET", "POST"])
 def home():
     return urls_controller.create()
 
+
 @app.route("/urls")
 def urls():
     return urls_controller.index()
 
-@app.route('/urls/<id>')
+
+@app.route("/urls/<id>")
 def get_one_url(id):
     return urls_controller.show(id)
 
+
 @app.errorhandler(404)
 def not_found(error):
-    return 'Oops!', 404
+    return "Oops!", 404
 
 
-@app.template_filter('dateformat')
+@app.template_filter("dateformat")
 def dateformat(date):
     return date.strftime("%Y-%m-%d")
 
