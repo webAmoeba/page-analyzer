@@ -25,6 +25,11 @@ def get_one_url(id):
     return urls_controller.show(id)
 
 
+@app.route("/urls/<id>/checks", methods=['POST'])
+def check_url(id):
+    return urls_controller.check(id)
+
+
 @app.errorhandler(404)
 def not_found(error):
     return "Oops!", 404

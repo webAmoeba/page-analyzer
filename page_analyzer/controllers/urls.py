@@ -1,5 +1,6 @@
 from flask import render_template, request, flash, redirect, url_for
 from page_analyzer.models import url as url_model
+from page_analyzer.models import url_check as check_model
 
 
 def index():
@@ -12,7 +13,20 @@ def show(id):
     if not url_data:
         flash('URL не найден', 'danger')
         return redirect(url_for('urls'))
-    return render_template('one_url.html', url=url_data)
+
+    checks = check_model.get_checks_for_url(id)
+    return render_template('one_url.html', url=url_data, checks=checks)
+
+
+def check(id):
+    url_data = url_model.get_by_id(id)
+    if not url_data:
+        flash('URL не найден', 'danger')
+        return redirect(url_for('urls'))
+
+    check_model.create(id)
+    flash('Страница успешно проверена', 'success')
+    return redirect(url_for('get_one_url', id=id))
 
 
 def create():
