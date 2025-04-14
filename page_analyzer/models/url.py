@@ -48,6 +48,37 @@ def get_all():
     return [dict(id=url[0], name=url[1]) for url in urls]
 
 
+def get_all_with_latest_check():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT 
+            urls.id, 
+            urls.name, 
+            url_checks.created_at, 
+            url_checks.status_code 
+        FROM urls 
+        LEFT JOIN (
+            SELECT DISTINCT ON (url_id) 
+                url_id, 
+                created_at, 
+                status_code 
+            FROM url_checks 
+            ORDER BY url_id, created_at DESC
+        ) AS url_checks ON urls.id = url_checks.url_id 
+        ORDER BY urls.id DESC
+    """)
+    urls = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return [dict(
+        id=url[0], 
+        name=url[1], 
+        last_check_at=url[2], 
+        status_code=url[3]
+    ) for url in urls]
+
+
 def get_by_id(url_id):
     conn = get_connection()
     cursor = conn.cursor()

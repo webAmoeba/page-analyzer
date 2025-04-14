@@ -4,7 +4,7 @@ from page_analyzer.models import url_check as check_model
 
 
 def index():
-    urls = url_model.get_all()
+    urls = url_model.get_all_with_latest_check()
     return render_template('urls.html', urls=urls)
 
 
