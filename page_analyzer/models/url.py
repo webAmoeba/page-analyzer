@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import validators
+from urllib.parse import urlparse
 
 
 def get_connection():
@@ -8,6 +9,11 @@ def get_connection():
     if not DATABASE_URL:
         raise ValueError('DATABASE_URL is not set')
     return psycopg2.connect(DATABASE_URL)
+
+
+def normalize_url(url):
+    parsed = urlparse(url)
+    return f"{parsed.scheme}://{parsed.netloc}"
 
 
 def validate(url):
@@ -45,9 +51,10 @@ def get_by_id(url_id):
 
 
 def exists(url):
+    normalized_url = normalize_url(url)
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT 1 FROM urls WHERE name = %s", (url,))
+    cursor.execute("SELECT 1 FROM urls WHERE name = %s", (normalized_url,))
     exists = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -55,11 +62,12 @@ def exists(url):
 
 
 def create(url):
+    normalized_url = normalize_url(url)
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO urls (name) VALUES (%s) RETURNING id",
-        (url,)
+        (normalized_url,)
     )
     url_id = cursor.fetchone()[0]
     conn.commit()

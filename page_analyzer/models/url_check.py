@@ -9,15 +9,23 @@ def create(url_id, url_name):
         response.raise_for_status()
         
         soup = BeautifulSoup(response.text, 'html.parser')
+        
         h1_tag = soup.find('h1')
         h1_text = h1_tag.text.strip() if h1_tag else ''
+        
+        title_tag = soup.find('title')
+        title_text = title_tag.text.strip() if title_tag else ''
+        
+        description_tag = soup.find('meta', attrs={'name': 'description'})
+        description_text = description_tag['content'].strip() if description_tag else ''
         
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO url_checks (url_id, status_code, h1) "
-            "VALUES (%s, %s, %s) RETURNING id, status_code, h1, created_at",
-            (url_id, response.status_code, h1_text)
+            "INSERT INTO url_checks (url_id, status_code, h1, title, description) "
+            "VALUES (%s, %s, %s, %s, %s) "
+            "RETURNING id, status_code, h1, title, description, created_at",
+            (url_id, response.status_code, h1_text, title_text, description_text)
         )
         check_data = cursor.fetchone()
         conn.commit()
@@ -28,7 +36,9 @@ def create(url_id, url_name):
             'id': check_data[0],
             'status_code': check_data[1],
             'h1': check_data[2],
-            'created_at': check_data[3]
+            'title': check_data[3],
+            'description': check_data[4],
+            'created_at': check_data[5]
         }
     except requests.RequestException:
         return None
@@ -38,7 +48,7 @@ def get_checks_for_url(url_id):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "SELECT id, status_code, h1, created_at FROM url_checks "
+        "SELECT id, status_code, h1, title, description, created_at FROM url_checks "
         "WHERE url_id = %s ORDER BY id DESC",
         (url_id,)
     )
@@ -49,5 +59,7 @@ def get_checks_for_url(url_id):
         'id': check[0],
         'status_code': check[1],
         'h1': check[2],
-        'created_at': check[3]
+        'title': check[3],
+        'description': check[4],
+        'created_at': check[5]
     } for check in checks]
