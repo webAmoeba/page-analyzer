@@ -40,7 +40,7 @@ def create():
         errors = url_model.validate(url)
         if errors:
             flash(errors[0], 'danger')
-            return redirect(url_for('home'))
+            return redirect(url_for('urls'))
 
         if url_model.exists(url):
             flash('Страница уже существует', 'info')
