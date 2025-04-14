@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from page_analyzer.controllers import urls as urls_controller
 import os
@@ -15,8 +15,10 @@ def home():
     return urls_controller.create()
 
 
-@app.route("/urls")
+@app.route("/urls", methods=["GET", "POST"])
 def urls():
+    if request.method == "POST":
+        return urls_controller.create()
     return urls_controller.index()
 
 
