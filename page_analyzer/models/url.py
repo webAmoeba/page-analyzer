@@ -13,7 +13,20 @@ def get_connection():
 
 def normalize_url(url):
     parsed = urlparse(url)
-    return f"{parsed.scheme}://{parsed.netloc}"
+    scheme = parsed.scheme or 'http'
+    netloc = parsed.netloc
+    
+    if not netloc and parsed.path:
+        netloc = parsed.path.split('/')[0]
+        if netloc:
+            path_parts = parsed.path.split('/')
+            if len(path_parts) > 1:
+                path = '/'.join(path_parts[1:])
+            else:
+                path = ''
+            parsed = parsed._replace(netloc=netloc, path=path)
+    
+    return f"{scheme}://{netloc.lower()}"
 
 
 def validate(url):
