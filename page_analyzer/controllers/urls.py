@@ -24,8 +24,11 @@ def check(id):
         flash('URL не найден', 'danger')
         return redirect(url_for('urls'))
 
-    check_model.create(id)
-    flash('Страница успешно проверена', 'success')
+    check_result = check_model.create(id, url_data['name'])
+    if check_result is None:
+        flash('Произошла ошибка при проверке', 'danger')
+    else:
+        flash('Страница успешно проверена', 'success')
     return redirect(url_for('get_one_url', id=id))
 
 
