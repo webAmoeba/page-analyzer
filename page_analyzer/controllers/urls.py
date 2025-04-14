@@ -40,11 +40,12 @@ def create():
         errors = url_model.validate(url)
         if errors:
             flash(errors[0], 'danger')
-            return redirect(url_for('urls'))
+            response = redirect(url_for('urls'))
+            response.status_code = 422
+            return response
 
         if url_model.exists(url):
             flash('Страница уже существует', 'info')
-            # Получаем id существующего URL
             url_id = url_model.get_id_by_name(normalize_url(url))
             return redirect(url_for('get_one_url', id=url_id))
 
