@@ -1,6 +1,7 @@
 from flask import render_template, request, flash, redirect, url_for, abort
 from page_analyzer.models import url as url_model
 from page_analyzer.models import url_check as check_model
+from page_analyzer.models.url import normalize_url
 
 
 def index():
@@ -43,7 +44,9 @@ def create():
 
         if url_model.exists(url):
             flash('Страница уже существует', 'info')
-            return redirect(url_for('home'))
+            # Получаем id существующего URL
+            url_id = url_model.get_id_by_name(normalize_url(url))
+            return redirect(url_for('get_one_url', id=url_id))
 
         url_id = url_model.create(url)
         flash('Страница успешно добавлена', 'success')

@@ -105,6 +105,18 @@ def exists(url):
     return exists is not None
 
 
+def get_id_by_name(url_name):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM urls WHERE name = %s", (url_name,))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if result:
+        return result[0]
+    return None
+
+
 def create(url):
     normalized_url = normalize_url(url)
     conn = get_connection()
