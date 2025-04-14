@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, abort
 from page_analyzer.models import url as url_model
 from page_analyzer.models import url_check as check_model
 
@@ -11,20 +11,20 @@ def index():
 def show(id):
     url_data = url_model.get_by_id(id)
     if not url_data:
-        flash('URL не найден', 'danger')
-        return redirect(url_for('urls'))
+        abort(404)
 
     checks = check_model.get_checks_for_url(id)
+
     return render_template('one_url.html', url=url_data, checks=checks)
 
 
 def check(id):
     url_data = url_model.get_by_id(id)
     if not url_data:
-        flash('URL не найден', 'danger')
-        return redirect(url_for('urls'))
+        abort(404)
 
     check_result = check_model.create(id, url_data['name'])
+
     if check_result is None:
         flash('Произошла ошибка при проверке', 'danger')
     else:

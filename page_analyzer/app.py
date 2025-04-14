@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from dotenv import load_dotenv
 from page_analyzer.controllers import urls as urls_controller
 import os
@@ -31,8 +31,8 @@ def check_url(id):
 
 
 @app.errorhandler(404)
-def not_found(error):
-    return "Oops!", 404
+def page_not_found(_):
+    return render_template('404.html'), 404
 
 
 @app.template_filter("dateformat")
