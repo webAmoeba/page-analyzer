@@ -49,8 +49,7 @@ def create():
         errors = url_model.validate(url)
         if errors:
             flash(errors[0], 'danger')
-            urls = url_model.get_all_with_latest_check()
-            response = make_response(render_template('urls.html', urls=urls))
+            response = make_response(render_template('index.html', url=url))
             response.status_code = 422
             return response
 

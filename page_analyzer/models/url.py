@@ -16,7 +16,7 @@ def normalize_url(url):
     parsed = urlparse(url)
     scheme = parsed.scheme or 'http'
     netloc = parsed.netloc
-    
+
     if not netloc and parsed.path:
         netloc = parsed.path.split('/')[0]
         if netloc:
@@ -26,7 +26,7 @@ def normalize_url(url):
             else:
                 path = ''
             parsed = parsed._replace(netloc=netloc, path=path)
-    
+
     return f"{scheme}://{netloc.lower()}"
 
 
@@ -53,7 +53,7 @@ def get_all_with_latest_check():
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT 
+        SELECT
             urls.id, 
             urls.name, 
             url_checks.created_at, 
