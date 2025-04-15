@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, redirect, url_for, abort
+from flask import render_template, request, flash, redirect, url_for, abort, make_response
 from page_analyzer.models import url as url_model
 from page_analyzer.models import url_check as check_model
 from page_analyzer.models.url import normalize_url
@@ -40,7 +40,8 @@ def create():
         errors = url_model.validate(url)
         if errors:
             flash(errors[0], 'danger')
-            response = redirect(url_for('urls'))
+            urls = url_model.get_all_with_latest_check()
+            response = make_response(render_template('urls.html', urls=urls))
             response.status_code = 422
             return response
 
