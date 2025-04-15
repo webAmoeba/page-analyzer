@@ -16,9 +16,8 @@
 {% endif %}
 {% endwith %}
 
-<section class="col-12 col-md-10 col-lg-8 mx-auto border rounded-3 bg-light p-5">
-    <h1 class="display-3">Сайт: {{ url.name }}</h1>
-    <br>
+<section>
+    <h1>Сайт: {{ url.name }}</h1>
     <div class="table-responsive">
         <table class="table table-bordered table-hover text-nowrap" data-test="url">
             <tbody>
@@ -46,7 +45,7 @@
         <input type="submit" class="btn btn-primary" value="Запустить проверку">
     </form>
 
-    <div>
+    <div class="table-responsive">
         <table class="table table-bordered table-hover mt-2" data-test="checks">
             <thead>
                 <tr>

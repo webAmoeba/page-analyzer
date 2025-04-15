@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
 {% for category, message in messages %}
@@ -17,14 +16,16 @@
 {% endif %}
 {% endwith %}
 
-<section class="col-12 col-md-10 col-lg-8 mx-auto border rounded-3 bg-light p-5">
-    <h1 class="display-3">Анализатор страниц</h1>
-    <p class="lead">Бесплатно проверяйте сайты на SEO-пригодность</p>
-    <form action="/urls" method="post" class="d-flex justify-content-center">
-        <label for="text" class="visually-hidden">Url для проверки</label>
-        <input id="text" type="text" name="url" placeholder="https://www.example.com"
-            class="form-control form-control-lg" required>
-        <input type="submit" class="btn btn-primary  btn-lg ms-3 px-5 text-uppercase mx-3" value="Проверить">
-    </form>
+<section class="row">
+    <div class="col-12 col-md-10 col-lg-8 mx-auto border rounded-3 bg-light p-5">
+        <h1 class="display-3">Анализатор страниц</h1>
+        <p class="lead">Бесплатно проверяйте сайты на SEO-пригодность</p>
+        <form action="/urls" method="post" class="d-flex justify-content-center">
+            <label for="text" class="visually-hidden">Url для проверки</label>
+            <input id="text" type="text" name="url" placeholder="https://www.example.com"
+                class="form-control form-control-lg" required>
+            <input type="submit" class="btn btn-primary  btn-lg ms-3 px-5 text-uppercase mx-3" value="Проверить">
+        </form>
+    </div>
 </section>
 {% endblock %}
