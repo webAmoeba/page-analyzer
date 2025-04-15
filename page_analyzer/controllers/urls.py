@@ -1,4 +1,13 @@
-from flask import render_template, request, flash, redirect, url_for, abort, make_response
+from flask import (
+    abort,
+    flash,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
+
 from page_analyzer.models import url as url_model
 from page_analyzer.models import url_check as check_model
 from page_analyzer.models.url import normalize_url

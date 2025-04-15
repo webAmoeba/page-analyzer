@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request
-from dotenv import load_dotenv
-from page_analyzer.controllers import urls as urls_controller
 import os
+
+from dotenv import load_dotenv
+from flask import Flask, render_template, request
+
+from page_analyzer.controllers import urls as urls_controller
 
 app = Flask(__name__)
 load_dotenv()
@@ -27,14 +29,14 @@ def get_one_url(id):
     return urls_controller.show(id)
 
 
-@app.route("/urls/<id>/checks", methods=['POST'])
+@app.route("/urls/<id>/checks", methods=["POST"])
 def check_url(id):
     return urls_controller.check(id)
 
 
 @app.errorhandler(404)
 def page_not_found(_):
-    return render_template('404.html'), 404
+    return render_template("404.html"), 404
 
 
 @app.template_filter("dateformat")

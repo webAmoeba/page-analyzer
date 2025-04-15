@@ -1,7 +1,8 @@
 import os
+from urllib.parse import urlparse
+
 import psycopg2
 import validators
-from urllib.parse import urlparse
 
 
 def get_connection():
