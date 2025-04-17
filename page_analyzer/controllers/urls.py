@@ -36,8 +36,8 @@ def check(id):
     try:
         check_model.create(id, url_data['name'])
         flash('Страница успешно проверена', 'success')
-    except Exception:
-        flash('Произошла ошибка при проверке', 'danger')
+    except Exception as e:
+        flash(f'Произошла ошибка при проверке: {e}', 'danger')
     return redirect(url_for('get_one_url', id=id))
 
 
