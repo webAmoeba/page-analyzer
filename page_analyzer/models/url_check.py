@@ -4,13 +4,7 @@ from bs4 import BeautifulSoup
 from page_analyzer.models.url import get_connection
 
 
-def create(url_id, url_name):
-    try:
-        response = requests.get(url_name)
-        response.raise_for_status()
-    except requests.RequestException as e:
-        raise RuntimeError(f"Ошибка при запросе к {url_name}: {e}")
-
+def parse_html(response):
     try:
         soup = BeautifulSoup(response.text, 'html.parser')
         h1_tag = soup.find('h1')
@@ -20,8 +14,19 @@ def create(url_id, url_name):
         description_tag = soup.find('meta', attrs={'name': 'description'})
         description_text = description_tag['content'].strip() \
             if description_tag else ''
+        return h1_text, title_text, description_text
     except Exception as e:
         raise RuntimeError(f"Ошибка при парсинге HTML: {e}")
+
+
+def create(url_id, url_name):
+    try:
+        response = requests.get(url_name)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        raise RuntimeError(f"Ошибка при запросе к {url_name}: {e}")
+
+    h1_text, title_text, description_text = parse_html(response)
 
     try:
         conn = get_connection()
