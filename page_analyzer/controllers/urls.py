@@ -33,12 +33,11 @@ def check(id):
     if not url_data:
         abort(404)
 
-    check_result = check_model.create(id, url_data['name'])
-
-    if check_result is None:
-        flash('Произошла ошибка при проверке', 'danger')
-    else:
+    try:
+        check_model.create(id, url_data['name'])
         flash('Страница успешно проверена', 'success')
+    except Exception:
+        flash('Произошла ошибка при проверке', 'danger')
     return redirect(url_for('get_one_url', id=id))
 
 
