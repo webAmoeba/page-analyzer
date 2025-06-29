@@ -3,7 +3,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=webAmoeba_python-project-83&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=webAmoeba_python-project-83)
 
 ### Deployed:
-[onrender.com](https://python-project-83-qku7.onrender.com/)
+[page-analyzer.webamoeba.ru/](https://page-analyzer.webamoeba.ru/)
 
 # Page Analyzer:
 Welcome to the Page Analyzer project! This repository contains a web application designed to analyze web pages and provide detailed insights into their structure and content.
